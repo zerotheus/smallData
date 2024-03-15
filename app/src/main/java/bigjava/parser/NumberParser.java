@@ -1,0 +1,28 @@
+package bigjava.parser;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+
+public class NumberParser implements Parser {
+
+    private Integer caracter;
+    private BufferedReader bfReader;
+
+    public NumberParser(Integer caracter, BufferedReader bfReader) {
+        this.caracter = caracter;
+        this.bfReader = bfReader;
+    }
+
+    @Override
+    public String parse() throws IOException {
+        final StringBuilder localStringBuilder = new StringBuilder();
+        while (caracter != ' ' && caracter != '\b' && caracter != 9 && caracter != '\n') {
+            final char cha = (char) (int) caracter;
+            localStringBuilder.append(cha);
+            caracter = bfReader.read();
+        }
+        caracter = bfReader.read();
+        return localStringBuilder.toString();
+    }
+
+}
