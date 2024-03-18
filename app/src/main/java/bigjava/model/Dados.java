@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Dados {
@@ -15,6 +17,7 @@ public class Dados {
     private long id;
     private Mensagem mensagem;
     private LocalDateTime dataHora;
+    @ManyToOne
     private Local local;
 
     public long getId() {
@@ -47,6 +50,14 @@ public class Dados {
 
     public void setDataHora(LocalDateTime dataHora) {
         this.dataHora = dataHora;
+    }
+
+    public double getLatitude() {
+        return this.getLocal().getLatitude();
+    }
+
+    public double getLongitude() {
+        return this.getLocal().getLongitude();
     }
 
     @Override
