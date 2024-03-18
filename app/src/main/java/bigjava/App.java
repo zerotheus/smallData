@@ -30,13 +30,20 @@ public class App {
     }
 
     public void parser() throws IOException {
-        bfReader = new BufferedReader(new FileReader("app/src/main/java/bigjava/data/chkn4sqrHead.txt"));
+        bfReader = new BufferedReader(new FileReader("app/src/main/java/bigjava/data/checkin_data_foursquare.txt"));
         caracter = bfReader.read();
         postgres.start();
         int i = 0;
-        while (caracter != -1 && i < 4) {
-            final String str = lineReader();
-            System.out.println(str);
+        while (caracter != -1 && caracter != null) {
+            try {
+                final String str = lineReader();
+                if (str == null) {
+                    postgres.close();
+                    break;
+                }
+            } catch (Exception e) {
+                System.out.println("Linha " + i + "com erro" + e.toString());
+            }
             i++;
         }
     }
@@ -55,13 +62,14 @@ public class App {
         dataHora = LocalDateTime.parse(dateParser.parse(), formatter);
         final Dados dado = new Dados();
         dado.setMensagem(new Mensagem(messageId, messageParser.parse(), id));
-        System.out.println(bfReader.readLine());
+        if (bfReader.readLine() == null) {
+            return null;
+        }
         dado.setLocal(new Local(latitude, longitude));
         dado.setDataHora(dataHora);
-        System.out.println("Dado: " + dado);
+        // System.out.println("Dado: " + dado);
         postgres.open();
         postgres.save(dado);
-        postgres.close();
         return stringBuilder.toString();
     }
 

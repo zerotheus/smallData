@@ -6,6 +6,7 @@ import org.hibernate.cfg.Configuration;
 
 import bigjava.model.Dados;
 import bigjava.model.Local;
+import bigjava.model.LocalIDClass;
 import bigjava.model.Mensagem;
 
 public class Postgres {
@@ -26,8 +27,12 @@ public class Postgres {
     }
 
     public void save(Dados dado) {
+        if (session.find(dado.getLocal().getClass(),
+                new LocalIDClass(dado.getLatitude(), dado.getLongitude())) == null) {
+            session.persist(dado.getLocal());
+        }
         session.persist(dado);
-        session.getTransaction().commit();
+        session.getTransaction().commit();  
     }
 
     public void close() {
