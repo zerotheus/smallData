@@ -1,12 +1,14 @@
 package bigjava.model;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 
 @Entity
 @IdClass(value = LocalIDClass.class)
-public class Local {
+public class Local implements Serializable {
 
     @Id
     private double latitude;

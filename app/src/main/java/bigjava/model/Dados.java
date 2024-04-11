@@ -1,5 +1,6 @@
 package bigjava.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
@@ -10,7 +11,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
-public class Dados {
+public class Dados implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

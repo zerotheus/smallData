@@ -10,6 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import bigjava.hibernate.Postgres;
+import bigjava.hibernate.PostgresThread;
 import bigjava.model.Dados;
 import bigjava.model.Local;
 import bigjava.model.Mensagem;
@@ -68,8 +69,7 @@ public class App {
         dado.setLocal(new Local(latitude, longitude));
         dado.setDataHora(dataHora);
         // System.out.println("Dado: " + dado);
-        postgres.open();
-        postgres.save(dado);
+        (new PostgresThread(postgres, dado)).run();
         return stringBuilder.toString();
     }
 
